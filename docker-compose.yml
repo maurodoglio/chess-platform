@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: chessplatform
+      POSTGRES_USER: chess
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-devpassword}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chess -d chessplatform"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend/ChessPlatform.Api
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=chessplatform;Username=chess;Password=${DB_PASSWORD:-devpassword}"
+      Auth__Google__ClientId: ${GOOGLE_CLIENT_ID}
+      Auth__Google__ClientSecret: ${GOOGLE_CLIENT_SECRET}
+      Auth__GitHub__ClientId: ${GITHUB_CLIENT_ID}
+      Auth__GitHub__ClientSecret: ${GITHUB_CLIENT_SECRET}
+      Auth__Jwt__Secret: ${JWT_SECRET}
+
+volumes:
+  pgdata:

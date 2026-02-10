@@ -1,0 +1,266 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: #7c83ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+/* Check pulse animation for king square */
+@keyframes check-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Board fade-in animation */
+@keyframes board-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.board-container {
+  animation: board-fade-in 300ms ease-in;
+}
+
+/* Captured pieces fade-in */
+@keyframes captured-fade-in {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.captured-piece {
+  display: inline-block;
+  animation: captured-fade-in 200ms ease-out;
+}
+
+/* Game-over flash overlay */
+@keyframes flash-overlay {
+  0% { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
+.game-over-flash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: flash-overlay 300ms ease-out forwards;
+  border-radius: 4px;
+}
+
+/* Toast animations */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toast-out {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(100%); }
+}
+
+/* Settings slide-in */
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* ---- Responsive styles ---- */
+
+/* Touch targets: minimum 44x44px on all interactive elements */
+@media (pointer: coarse) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Mobile (<768px) */
+@media (max-width: 767px) {
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.3rem; }
+
+  .home-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .mode-card {
+    width: 100% !important;
+  }
+
+  .nav-desktop-items { display: none !important; }
+  .nav-mobile-avatar { display: flex !important; }
+
+  .game-panel-outer {
+    flex-direction: column !important;
+  }
+
+  .game-panel-side {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .history-table { display: none !important; }
+  .history-cards { display: flex !important; }
+
+  .settings-panel-inner {
+    width: 100% !important;
+  }
+
+  .tc-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+  }
+
+  .chess-clock {
+    font-size: 1.1rem !important;
+  }
+
+  .action-btn-text { display: none; }
+  .action-btn-icon { display: inline; }
+
+  .player-info-row {
+    max-width: 100% !important;
+  }
+
+  button {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* Tablet (768–1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .mode-card {
+    width: 100% !important;
+  }
+
+  .game-panel-outer {
+    flex-direction: column !important;
+  }
+
+  .game-panel-side {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .nav-desktop-items { display: flex !important; }
+  .nav-mobile-avatar { display: none !important; }
+
+  .history-table { display: table !important; }
+  .history-cards { display: none !important; }
+
+  .settings-panel-inner {
+    width: 320px !important;
+  }
+
+  .tc-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important;
+  }
+
+  .chess-clock {
+    font-size: 1.3rem !important;
+  }
+
+  .player-info-row {
+    max-width: 100% !important;
+  }
+}
+
+/* Desktop (≥1024px) */
+@media (min-width: 1024px) {
+  .home-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .game-panel-outer {
+    flex-direction: row !important;
+  }
+
+  .game-panel-side {
+    width: 300px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .nav-desktop-items { display: flex !important; }
+  .nav-mobile-avatar { display: none !important; }
+
+  .history-table { display: table !important; }
+  .history-cards { display: none !important; }
+
+  .settings-panel-inner {
+    width: 320px !important;
+  }
+
+  .tc-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important;
+  }
+
+  .chess-clock {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Action buttons: show text on desktop, icons on mobile */
+.action-btn-text { display: inline; }
+.action-btn-icon { display: none; }
+
+/* Mobile dropdown menu */
+.mobile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 100;
+}
+
+.mobile-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.mobile-dropdown button:hover {
+  background: rgba(124, 131, 255, 0.15);
+}
