@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ChessPlatform.Api/ChessPlatform.Api.csproj" />
+  <Project Path="ChessPlatform.Tests/ChessPlatform.Tests.csproj" />
+</Solution>
